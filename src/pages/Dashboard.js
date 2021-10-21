@@ -1,18 +1,19 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@material-ui/core';
-// import Budget from '../components/dashboard/Budget';
+import Gasoline from 'src/components/dashboard/Gasoline';
+import Budget from '../components/dashboard/Budget';
 import LatestOrders from '../components/dashboard/LatestOrders';
 import LatestProducts from '../components/dashboard/LatestProducts';
 import Sales from '../components/dashboard/Sales';
-// import TasksProgress from '../components/dashboard/TasksProgress';
-// import TotalCustomers from '../components/dashboard/TotalCustomers';
-// import TotalProfit from '../components/dashboard/TotalProfit';
+import TasksProgress from '../components/dashboard/TasksProgress';
+import TotalCustomers from '../components/dashboard/TotalCustomers';
+import TotalProfit from '../components/dashboard/TotalProfit';
 import TrafficByDevice from '../components/dashboard/TrafficByDevice';
 
 const Dashboard = () => (
   <>
     <Helmet>
-      <title>Dashboard | Material Kit</title>
+      <title>Oil Types in China & Australia</title>
     </Helmet>
     <Box
       sx={{
@@ -69,7 +70,8 @@ const Dashboard = () => (
             xl={9}
             xs={12}
           >
-            <Sales />
+            {/* <Sales /> */}
+            <Gasoline />
           </Grid>
           <Grid
             item

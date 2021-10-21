@@ -32,6 +32,23 @@
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
     "linebreak-style": ["error", "windows"],
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "no-trailing-spaces": "off",
+    "quote": "off",
+    "import/order": "off",
+    "semi": "off",
+    "space-infix-ops": "off",
+    "no-param-reassign": "off",
+    "import/prefer-default-export": "off",
+    "react/button-has-type": "off",
+    "no-extra-semi": "off",
+    "object-curly-spacing": "off",
+    "quote-props": "off",
+    "quotes": "off",
+    "indent": "off",
+    "arrow-parens": "off",
+    "object-curly-newline": "off",
+    "no-undef": "off",
+    "padded-blocks": "off"
   }
 }

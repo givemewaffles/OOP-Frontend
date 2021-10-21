@@ -7,7 +7,8 @@ import {
   Box,
   Hidden,
   IconButton,
-  Toolbar
+  Toolbar,
+  Typography
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
@@ -24,10 +25,15 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
     >
       <Toolbar>
         <RouterLink to="/">
-          <Logo />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Logo />
+            <Typography variant="h3" color="white">
+              Oil Types in China & New Zealand
+            </Typography>
+          </div>
         </RouterLink>
         <Box sx={{ flexGrow: 1 }} />
-        <Hidden xlDown>
+        {/* <Hidden xlUp>
           <IconButton color="inherit" size="large">
             <Badge
               badgeContent={notifications.length}
@@ -40,12 +46,12 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
           <IconButton color="inherit" size="large">
             <InputIcon />
           </IconButton>
-        </Hidden>
-        <Hidden lgUp>
+        </Hidden> */}
+        {/* <Hidden lgUp>
           <IconButton color="inherit" onClick={onMobileNavOpen} size="large">
             <MenuIcon />
           </IconButton>
-        </Hidden>
+        </Hidden> */}
       </Toolbar>
     </AppBar>
   );
