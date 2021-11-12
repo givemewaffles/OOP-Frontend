@@ -126,7 +126,7 @@ const NZData = (props) => {
   }
 
   function updateURL(config) {
-    let updatedURL = "http://localhost:8080/api/chinaData?"; 
+    let updatedURL = "http://localhost:8080/api/NewZealand/query?"; 
     
     if (config.type != null) {
       updatedURL += `type=${config.type}&`;

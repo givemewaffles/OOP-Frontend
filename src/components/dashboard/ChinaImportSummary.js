@@ -21,7 +21,7 @@ const ChinaImportSummary = (props) => (
         spacing={3}
         sx={{ justifyContent: 'space-between' }}
       >
-        <Grid item>
+        {/* <Grid item>
           <Typography
             color="textSecondary"
             gutterBottom
@@ -35,7 +35,7 @@ const ChinaImportSummary = (props) => (
           >
             $24,000
           </Typography>
-        </Grid>
+        </Grid> */}
         {/* <Grid item>
           <Avatar
             sx={{
