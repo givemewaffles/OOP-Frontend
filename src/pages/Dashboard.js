@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@material-ui/core';
-import Gasoline from 'src/components/dashboard/Gasoline';
+import ChinaData from 'src/components/dashboard/ChinaData';
 import Budget from '../components/dashboard/Budget';
 import LatestOrders from '../components/dashboard/LatestOrders';
 import LatestProducts from '../components/dashboard/LatestProducts';
@@ -72,7 +72,7 @@ const Dashboard = () => (
             xs={12}
           >
             {/* <Sales /> */}
-            <Gasoline />
+            <ChinaData />
           </Grid>
           <Grid
             item

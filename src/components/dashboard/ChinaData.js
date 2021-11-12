@@ -19,10 +19,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 
-const Gasoline = (props) => {
+const ChinaData = (props) => {
   const theme = useTheme();
   const allYears = [2021, 2020, 2019, 2018];
-  const allCategories = ["Gasoline", "Crude petroleum oils", "Naphtha", "Aviation kerosene", "Diesel oil"];
+  const allCategories = ["Gasoline", "Crude petroleum oils", "Naphtha", "Aviation kerosene", "Diesel oil", "Natural gases"];
   const allTypes = ['Export', 'Import'];
   const [retrievedData, setRetrievedData] = React.useState(false);
   const [year, setYear] = React.useState(allYears[0]);
@@ -161,7 +161,7 @@ const Gasoline = (props) => {
     }
 
     let apiURL = updateURL(config);
-    console.log(apiURL)
+    // console.log(apiURL)
 
     fetch(apiURL, requestOptions)
       .then(function(result) { return result.json() })
@@ -181,15 +181,6 @@ const Gasoline = (props) => {
                 barThickness: 12,
                 borderRadius: 4,
                 data: qty,
-                label: '2019'
-              },
-              {
-                backgroundColor: colors.grey[200],
-                barPercentage: 0.5,
-                barThickness: 12,
-                borderRadius: 4,
-                data: qty,
-                label: '2018',
               }
             ],
             labels: months
@@ -290,4 +281,4 @@ const Gasoline = (props) => {
   );
 };
 
-export default Gasoline;
+export default ChinaData;

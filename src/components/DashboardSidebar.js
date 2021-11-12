@@ -35,7 +35,12 @@ const items = [
   {
     href: '/app/dashboard',
     icon: BarChartIcon,
-    title: 'Dashboard'
+    title: 'China Data'
+  },
+  {
+    href: '/app/dashboard2',
+    icon: BarChartIcon,
+    title: 'New Zealand'
   },
   // {
   //   href: '/app/customers',
