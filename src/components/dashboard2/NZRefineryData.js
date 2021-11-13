@@ -19,10 +19,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 
-const ChinaData = (props) => {
+const NZRefineryData = (props) => {
   const theme = useTheme();
   const allYears = [2021, 2020, 2019, 2018];
-  const allCategories = ["Gasoline", "Crude petroleum oil", "Naphtha", "Aviation kerosene", "Diesel oil", "Natural gases"];
+  const allProductGroups = ["Gasoline", "Crude petroleum oil", "Naphtha", "Aviation kerosene", "Diesel oil", "Natural gases"];
   const allTypes = ['Export', 'Import'];
   const [retrievedData, setRetrievedData] = React.useState(false);
   const [year, setYear] = React.useState(allYears[0]);
@@ -65,7 +65,7 @@ const ChinaData = (props) => {
       //   maxBarThickness: 10
       // }
     ],
-    // labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
+    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
   };
 
   const options = {
@@ -126,7 +126,7 @@ const ChinaData = (props) => {
   }
 
   function updateURL(config) {
-    let updatedURL = "http://localhost:8080/api/chinaData?"; 
+    let updatedURL = "http://localhost:8080/api/NewZealand/query?"; 
     
     if (config.type != null) {
       updatedURL += `type=${config.type}&`;
@@ -181,7 +181,6 @@ const ChinaData = (props) => {
                 barThickness: 12,
                 borderRadius: 4,
                 data: qty,
-                label: 'Quantity'
               }
             ],
             labels: months
@@ -282,4 +281,4 @@ const ChinaData = (props) => {
   );
 };
 
-export default ChinaData;
+export default NZRefineryData;
