@@ -96,7 +96,7 @@ const NZRefineryData = (props) => {
   }
 
   function updateURL(config) {
-    let updatedURL = `http://localhost:8080/api/NewZealand/query?`; 
+    let updatedURL = `http://oop3-env.eba-gu8cge2p.ap-southeast-1.elasticbeanstalk.com/api/NewZealand/query?`; 
     
     if (config.type != null) {
       updatedURL += `type=${config.type}&`;
@@ -135,7 +135,7 @@ const NZRefineryData = (props) => {
     //     year: year
     //   }
     // )
-    const apiURL = `http://localhost:8080/api/NewZealand/query?productGroup=${prodGrp}&year=${year}&type=${type}`
+    const apiURL = `http://oop3-env.eba-gu8cge2p.ap-southeast-1.elasticbeanstalk.com/api/NewZealand/query?productGroup=${prodGrp}&year=${year}&type=${type}`
     fetch(apiURL, requestOptions)
       .then(response => response.json())
       .then(res => { 

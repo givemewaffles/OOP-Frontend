@@ -64,7 +64,7 @@ const Dashboard2 = () => (
             xs={12}
           >
             {/* <Sales /> */}
-            <NZData />
+            <NZRefineryData />
           </Grid>
           <Grid
             item
@@ -92,7 +92,7 @@ const Dashboard2 = () => (
             xs={12}
           >
             {/* <LatestOrders />  */}
-            <NZRefineryData />
+            {/* <NZData /> */}
           </Grid>
         </Grid>
       </Container>
