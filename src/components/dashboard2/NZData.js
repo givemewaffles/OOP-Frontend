@@ -8,7 +8,8 @@ import {
   CardHeader,
   Divider,
   useTheme,
-  colors
+  colors,
+  TextField
 } from '@material-ui/core';
 import * as API from '../../api';
 import { CollectionsBookmarkRounded } from '@material-ui/icons';
@@ -18,15 +19,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
+import { Autocomplete } from '@mui/material';
 
 const NZData = (props) => {
   const theme = useTheme();
-  const allYears = [2021, 2020, 2019, 2018];
-  const allCategories = ["Gasoline", "Crude petroleum oils", "Naphtha", "Aviation kerosene", "Diesel oil", "Natural gases"];
-  const allTypes = ['Export', 'Import'];
+  const allYears = [1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021];
+  const allProdGrps = ["Crude Oil", "", "Condensate and Naphtha","Blendstocks and other refinery feedstocks","LPG","Petrol","Regular Petrol","Premium Petrol","Synthetic Petrol","Diesel","Fuel Oil","Aviation Fuels","Jet A1","Avgas","Lighting Kerosene","Other Petroleum Products"];
+  const allTypes = ["Refinery Intake","Refinery Output","Supply","Imports", "Exports"];
   const [retrievedData, setRetrievedData] = React.useState(false);
   const [year, setYear] = React.useState(allYears[0]);
-  const [category, setCategory] = React.useState(allCategories[0]);
+  const [category, setCategory] = React.useState(allProdGrps[0]);
   const [type, setType] = React.useState(allTypes[0]);
   const [resultExists, setResultExists] = React.useState(false);
 
@@ -156,7 +158,7 @@ const NZData = (props) => {
 
     const config = {
       "year": year, 
-      "category": category,
+      "product_group": category,
       "type": type
     }
 
@@ -186,7 +188,7 @@ const NZData = (props) => {
             labels: months
           }
         )
-        console.log("data retrieved")
+        console.log("NZ data retrieved")
         setResultExists(true);
       })
       .catch(error => {
@@ -214,39 +216,28 @@ const NZData = (props) => {
             </Button> */}
           </>
         )}
-        title="Gasoline Volumes over Time"
+        title="New Zealand Oil Data over Time"
       />
       <div style={{display: 'flex', flexDirection: 'row'}}>
       <InputLabel id="yearLabel">Year</InputLabel>
-      <Select
-        labelId="yearLabel"
-        id="demo-simple-select-standard"
-        value={year}
-        onChange={handleYearChange}
-        label="Year"
-      >
-        {allYears.map((e) => {
-          return (
-            <MenuItem value={e}>{e}</MenuItem>
-          )
-        })}
-      </Select>
+      <Autocomplete disablePortal options={allYears} sx={{ width: 120 }} renderInput={(params) => <TextField {...params} />} />
       <InputLabel id="categoryLabel">Category</InputLabel>
-      <Select
+      {/* <Select
         labelId="categoryLabel"
         id="demo-simple-select-standard"
         value={category}
         onChange={handleCategoryChange}
         label="Category"
       >
-        {allCategories.map((e) => {
+        {allProdGrps.map((e) => {
           return (
             <MenuItem value={e}>{e}</MenuItem>
           )
         })}
-      </Select>
+      </Select> */}
+      <Autocomplete disablePortal options={allProdGrps} sx={{ width: 150 }} renderInput={(params) => <TextField {...params} />} />
       <InputLabel id="typeLabel">Type</InputLabel>
-      <Select
+      {/* <Select
         labelId="typeLabel"
         id="demo-simple-select-standard"
         value={type}
@@ -258,7 +249,8 @@ const NZData = (props) => {
             <MenuItem value={e}>{e}</MenuItem>
           )
         })}
-      </Select>
+      </Select> */}
+      <Autocomplete disablePortal options={allTypes} sx={{ width: 150 }} renderInput={(params) => <TextField {...params} />} />
       </div>
       <Divider />
       {resultExists && <CardContent>

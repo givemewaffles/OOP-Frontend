@@ -187,7 +187,7 @@ const ChinaData = (props) => {
             labels: months
           }
         )
-        console.log("data retrieved")
+        console.log("China data retrieved")
         setResultExists(true);
       })
       .catch(error => {
@@ -215,7 +215,7 @@ const ChinaData = (props) => {
             </Button> */}
           </>
         )}
-        title="Gasoline Volumes over Time"
+        title="China Oil Data over Time"
       />
       <div style={{display: 'flex', flexDirection: 'row'}}>
       <InputLabel id="yearLabel">Year</InputLabel>
@@ -228,7 +228,7 @@ const ChinaData = (props) => {
       >
         {allYears.map((e) => {
           return (
-            <MenuItem value={e}>{e}</MenuItem>
+            <MenuItem key={e} value={e}>{e}</MenuItem>
           )
         })}
       </Select>
@@ -242,7 +242,7 @@ const ChinaData = (props) => {
       >
         {allCategories.map((e) => {
           return (
-            <MenuItem value={e}>{e}</MenuItem>
+            <MenuItem key={e} value={e}>{e}</MenuItem>
           )
         })}
       </Select>
@@ -256,7 +256,7 @@ const ChinaData = (props) => {
       >
         {allTypes.map((e) => {
           return (
-            <MenuItem value={e}>{e}</MenuItem>
+            <MenuItem key={e} value={e}>{e}</MenuItem>
           )
         })}
       </Select>

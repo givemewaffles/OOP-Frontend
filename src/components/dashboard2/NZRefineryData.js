@@ -21,12 +21,12 @@ import Typography from '@mui/material/Typography';
 
 const NZRefineryData = (props) => {
   const theme = useTheme();
-  const allYears = [2021, 2020, 2019, 2018];
-  const allProductGroups = ["Gasoline", "Crude petroleum oil", "Naphtha", "Aviation kerosene", "Diesel oil", "Natural gases"];
-  const allTypes = ['Export', 'Import'];
+  const allYears = [1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021];
+  const allProductGroups = ["","Crude Oil", "Condensate and Naphtha","Blendstocks and other refinery feedstocks","LPG","Petrol","Regular Petrol","Premium Petrol","Synthetic Petrol","Diesel","Fuel Oil","Aviation Fuels","Jet A1","Avgas","Lighting Kerosene","Other Petroleum Products"];
+  const allTypes = ["Refinery Intake","Refinery Output","Supply","Imports"];
   const [retrievedData, setRetrievedData] = React.useState(false);
   const [year, setYear] = React.useState(allYears[0]);
-  const [category, setCategory] = React.useState(allCategories[0]);
+  const [prodGrp, setProdGrp] = React.useState(allProductGroups[0]);
   const [type, setType] = React.useState(allTypes[0]);
   const [resultExists, setResultExists] = React.useState(false);
 
@@ -34,38 +34,12 @@ const NZRefineryData = (props) => {
     setYear(event.target.value);
   };
 
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+  const handleProdGrpChange = (event) => {
+    setProdGrp(event.target.value);
   };
   
   const handleTypeChange = (event) => {
     setType(event.target.value);
-  };
-
-  const data = {
-    datasets: [
-      {
-        backgroundColor: colors.indigo[500],
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'Quantity',
-        maxBarThickness: 10
-      },
-      // {
-      //   backgroundColor: colors.grey[200],
-      //   barPercentage: 0.5,
-      //   barThickness: 12,
-      //   borderRadius: 4,
-      //   categoryPercentage: 0.5,
-      //   data: [11, 20, 12, 29, 30, 25, 13],
-      //   label: 'Last year',
-      //   maxBarThickness: 10
-      // }
-    ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
   };
 
   const options = {
@@ -132,7 +106,7 @@ const NZRefineryData = (props) => {
       updatedURL += `type=${config.type}&`;
     }
     if (config.category != null) {
-      updatedURL += `category=${config.category}&`;
+      updatedURL += `product_group=${config.product_group}&`;
     }
     if (config.year != null) {
       updatedURL += `year=${config.year}`
@@ -156,7 +130,7 @@ const NZRefineryData = (props) => {
 
     const config = {
       "year": year, 
-      "category": category,
+      "product_group": product_group,
       "type": type
     }
 
@@ -197,7 +171,7 @@ const NZRefineryData = (props) => {
 
   useEffect(() => {
     refreshData()
-  }, [year, category, type])
+  }, [year, prodGrp, type])
 
   return (
     <Card {...props}>
@@ -235,11 +209,11 @@ const NZRefineryData = (props) => {
       <Select
         labelId="categoryLabel"
         id="demo-simple-select-standard"
-        value={category}
-        onChange={handleCategoryChange}
+        value={prodGrp}
+        onChange={handleProdGrpChange}
         label="Category"
       >
-        {allCategories.map((e) => {
+        {allProductGroups.map((e) => {
           return (
             <MenuItem value={e}>{e}</MenuItem>
           )
