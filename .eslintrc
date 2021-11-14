@@ -68,6 +68,10 @@
     "no-var": "off",
     "func-names": "off",
     "react/jsx-indent": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "space-unary-ops": "off",
+    "no-restricted-syntax": "off",
+    "guard-for-in": "off",
+    "object-shorthand": "off"
   }
 }

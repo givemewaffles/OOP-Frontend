@@ -8,25 +8,21 @@ import {
   CardHeader,
   Divider,
   useTheme,
-  colors
+  colors,
+  TextField
 } from '@material-ui/core';
-import * as API from '../../api';
-import { CollectionsBookmarkRounded } from '@material-ui/icons';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
+import { Autocomplete } from '@mui/material';
 
 const NZRefineryData = (props) => {
   const theme = useTheme();
-  const allYears = [1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021];
-  const allProductGroups = ["","Crude Oil", "Condensate and Naphtha","Blendstocks and other refinery feedstocks","LPG","Petrol","Regular Petrol","Premium Petrol","Synthetic Petrol","Diesel","Fuel Oil","Aviation Fuels","Jet A1","Avgas","Lighting Kerosene","Other Petroleum Products"];
-  const allTypes = ["Refinery Intake","Refinery Output","Supply","Imports"];
+  const allYears = ["1978","1979","1980","1981","1982","1983","1984","1985","1986","1987","1988","1989","1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"];
+  const allProdGrps = ["Crude Oil, Condensate and Naphtha","","Blendstocks and other refinery feedstocks","LPG","Petrol","Regular Petrol","Premium Petrol","Synthetic Petrol","Diesel","Fuel Oil","Aviation Fuels","Jet A1","Avgas","Lighting Kerosene","Other Petroleum Products"];
+  const allTypes = ["Refinery Intake","Refinery Output", "Supply", "Imports", "Exports"];
   const [retrievedData, setRetrievedData] = React.useState(false);
   const [year, setYear] = React.useState(allYears[0]);
-  const [prodGrp, setProdGrp] = React.useState(allProductGroups[0]);
+  const [prodGrp, setProdGrp] = React.useState(allProdGrps[0]);
   const [type, setType] = React.useState(allTypes[0]);
   const [resultExists, setResultExists] = React.useState(false);
 
@@ -100,51 +96,57 @@ const NZRefineryData = (props) => {
   }
 
   function updateURL(config) {
-    let updatedURL = "http://localhost:8080/api/NewZealand/query?"; 
+    let updatedURL = `http://localhost:8080/api/NewZealand/query?`; 
     
     if (config.type != null) {
       updatedURL += `type=${config.type}&`;
     }
-    if (config.category != null) {
-      updatedURL += `product_group=${config.product_group}&`;
+    if (config.productGroup != null) {
+      updatedURL += `productGroup=${config.productGroup}&`;
     }
     if (config.year != null) {
       updatedURL += `year=${config.year}`
     }
   
-    return updatedURL
+    return String(updatedURL)
   
   }
 
   const refreshData = () => {
-    const myHeaders = new Headers();
-    myHeaders.append("Host", "localhost:8080");
-    myHeaders.append("Referer", "http://localhost:3000");
-  
     const requestOptions = {
       method: 'GET',
-      headers: myHeaders,
       redirect: 'follow',
-      // mode: 'cors'
-    };
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }
 
     const config = {
       "year": year, 
-      "product_group": product_group,
+      "product_group": prodGrp,
       "type": type
     }
 
-    let apiURL = updateURL(config);
-    // console.log(apiURL)
-
+    // "http://localhost:8080/api/NewZealand/query?" + new URLSearchParams(
+    //   {
+    //     productGroup: prodGrp,
+    //     type: type,
+    //     year: year
+    //   }
+    // )
+    const apiURL = `http://localhost:8080/api/NewZealand/query?productGroup=${prodGrp}&year=${year}&type=${type}`
     fetch(apiURL, requestOptions)
-      .then(function(result) { return result.json() })
-      .then(function(res) { 
+      .then(response => response.json())
+      .then(res => { 
+        console.log(res)
         let months =  [];
         let qty =  [];
+        // for (let i=0; i < res.length; i++) {
+        // }
         res.forEach(entry => {
           months.push(getMonth(entry.month));
-          qty.push(entry.final_quantity)
+          qty.push(entry.quantity);
         });
         setRetrievedData(
           {
@@ -155,12 +157,13 @@ const NZRefineryData = (props) => {
                 barThickness: 12,
                 borderRadius: 4,
                 data: qty,
+                label: 'Quantity'
               }
             ],
             labels: months
           }
         )
-        console.log("data retrieved")
+        console.log("NZ Refinery data retrieved")
         setResultExists(true);
       })
       .catch(error => {
@@ -188,11 +191,12 @@ const NZRefineryData = (props) => {
             </Button> */}
           </>
         )}
-        title="Gasoline Volumes over Time"
+        title="New Zealand Refinery Data over Time"
       />
       <div style={{display: 'flex', flexDirection: 'row'}}>
       <InputLabel id="yearLabel">Year</InputLabel>
-      <Select
+      <Autocomplete isOptionEqualToValue={(option, value) => option === value} value={year} onChange={(event, newValue) => { setYear(String(newValue)) }} options={allYears} sx={{ width: 130 }} renderInput={(params) => <TextField {...params} />} />
+      {/* <Select
         labelId="yearLabel"
         id="demo-simple-select-standard"
         value={year}
@@ -204,9 +208,19 @@ const NZRefineryData = (props) => {
             <MenuItem value={e}>{e}</MenuItem>
           )
         })}
-      </Select>
+      </Select> */}
+
       <InputLabel id="categoryLabel">Category</InputLabel>
-      <Select
+      <Autocomplete 
+        value={prodGrp} 
+        onChange={(event, newValue) => {
+          setProdGrp(newValue);
+        }}
+        options={allProdGrps} 
+        sx={{ width: 150 }} 
+        renderInput={(params) => <TextField {...params} />} 
+      />
+      {/* <Select
         labelId="categoryLabel"
         id="demo-simple-select-standard"
         value={prodGrp}
@@ -218,9 +232,10 @@ const NZRefineryData = (props) => {
             <MenuItem value={e}>{e}</MenuItem>
           )
         })}
-      </Select>
+      </Select> */}
       <InputLabel id="typeLabel">Type</InputLabel>
-      <Select
+      <Autocomplete value={type} onChange={(event, newValue) => { setType(newValue) }} options={allTypes} sx={{ width: 150 }} renderInput={(params) => <TextField {...params} />} />
+      {/* <Select
         labelId="typeLabel"
         id="demo-simple-select-standard"
         value={type}
@@ -232,7 +247,7 @@ const NZRefineryData = (props) => {
             <MenuItem value={e}>{e}</MenuItem>
           )
         })}
-      </Select>
+      </Select> */}
       </div>
       <Divider />
       {resultExists && <CardContent>

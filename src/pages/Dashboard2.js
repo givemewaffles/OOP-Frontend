@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@material-ui/core';
 import NZData from 'src/components/dashboard2/NZData';
+import NZRefineryData from 'src/components/dashboard2/NZRefineryData';
 import Budget from '../components/dashboard/Budget';
 import LatestOrders from '../components/dashboard/LatestOrders';
 import LatestProducts from '../components/dashboard/LatestProducts';
@@ -74,24 +75,25 @@ const Dashboard2 = () => (
           >
             {/* <TrafficByDevice sx={{ height: '100%' }} /> */}
           </Grid>
-          <Grid
+          {/* <Grid
             item
             lg={4}
             md={6}
             xl={3}
             xs={12}
           >
-            {/* <LatestProducts sx={{ height: '100%' }} /> */}
-          </Grid>
-          {/* <Grid
+            <LatestProducts sx={{ height: '100%' }} />
+          </Grid> */}
+          <Grid
             item
             lg={8}
             md={12}
             xl={9}
             xs={12}
           >
-            <LatestOrders /> 
-          </Grid> */}
+            {/* <LatestOrders />  */}
+            <NZRefineryData />
+          </Grid>
         </Grid>
       </Container>
     </Box>

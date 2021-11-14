@@ -126,7 +126,7 @@ const ChinaData = (props) => {
   }
 
   function updateURL(config) {
-    let updatedURL = "http://localhost:8080/api/chinaData?"; 
+    let updatedURL = "http://oop3-env.eba-gu8cge2p.ap-southeast-1.elasticbeanstalk.com/api/chinaData?"; 
     
     if (config.type != null) {
       updatedURL += `type=${config.type}&`;
