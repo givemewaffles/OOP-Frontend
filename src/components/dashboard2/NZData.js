@@ -23,12 +23,12 @@ import { Autocomplete } from '@mui/material';
 
 const NZData = (props) => {
   const theme = useTheme();
-  const allYears = [1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021];
+  const allYears = ["1978","1979","1980","1981","1982","1983","1984","1985","1986","1987","1988","1989","1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"];
   const allProdGrps = ["Crude Oil", "", "Condensate and Naphtha","Blendstocks and other refinery feedstocks","LPG","Petrol","Regular Petrol","Premium Petrol","Synthetic Petrol","Diesel","Fuel Oil","Aviation Fuels","Jet A1","Avgas","Lighting Kerosene","Other Petroleum Products"];
   const allTypes = ["Refinery Intake","Refinery Output","Supply","Imports", "Exports"];
   const [retrievedData, setRetrievedData] = React.useState(false);
   const [year, setYear] = React.useState(allYears[0]);
-  const [category, setCategory] = React.useState(allProdGrps[0]);
+  const [prodGrp, setprodGrp] = React.useState(allProdGrps[0]);
   const [type, setType] = React.useState(allTypes[0]);
   const [resultExists, setResultExists] = React.useState(false);
 
@@ -36,9 +36,11 @@ const NZData = (props) => {
     setYear(event.target.value);
   };
 
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+  const handleProdGrpChange = (event) => {
+    setprodGrp(event.target.value);
   };
+
+  // handleCategoryChange
   
   const handleTypeChange = (event) => {
     setType(event.target.value);
@@ -133,14 +135,14 @@ const NZData = (props) => {
     if (config.type != null) {
       updatedURL += `type=${config.type}&`;
     }
-    if (config.category != null) {
-      updatedURL += `category=${config.category}&`;
+    if (config.productGroup != null) {
+      updatedURL += `productGrp=${config.productGroup}&`;
     }
     if (config.year != null) {
       updatedURL += `year=${config.year}`
     }
   
-    return updatedURL
+    return String(updatedURL)
   
   }
 
@@ -151,28 +153,31 @@ const NZData = (props) => {
   
     const requestOptions = {
       method: 'GET',
-      headers: myHeaders,
       redirect: 'follow',
-      // mode: 'cors'
-    };
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }
 
     const config = {
       "year": year, 
-      "product_group": category,
+      "product_group": prodGrp,
       "type": type
     }
 
-    let apiURL = updateURL(config);
-    // console.log(apiURL)
-
+    const apiURL = `http://localhost:8080/api/NewZealand/query?productGroup=${prodGrp}&year=${year}&type=${type}`
     fetch(apiURL, requestOptions)
-      .then(function(result) { return result.json() })
-      .then(function(res) { 
+      .then(response => response.json())
+      .then(res => { 
+        console.log(res)
         let months =  [];
         let qty =  [];
+        // for (let i=0; i < res.length; i++) {
+        // }
         res.forEach(entry => {
           months.push(getMonth(entry.month));
-          qty.push(entry.final_quantity)
+          qty.push(entry.quantity);
         });
         setRetrievedData(
           {
@@ -183,23 +188,59 @@ const NZData = (props) => {
                 barThickness: 12,
                 borderRadius: 4,
                 data: qty,
+                label: 'Quantity'
               }
             ],
             labels: months
           }
         )
-        console.log("NZ data retrieved")
+        console.log("NZ Refinery data retrieved")
         setResultExists(true);
       })
       .catch(error => {
         console.log('error', error)
         setResultExists(false);
       });
+    // console.log(apiURL)
+    useEffect(() => {
+      refreshData()
+    }, [year, prodGrp, type])
+
+    // fetch(apiURL, requestOptions)
+    //   .then(function(result) { return result.json() })
+    //   .then(function(res) { 
+    //     let months =  [];
+    //     let qty =  [];
+    //     res.forEach(entry => {
+    //       months.push(getMonth(entry.month));
+    //       qty.push(entry.final_quantity)
+    //     });
+    //     setRetrievedData(
+    //       {
+    //         datasets: [
+    //           {
+    //             backgroundColor: colors.indigo[500],
+    //             barPercentage: 0.5,
+    //             barThickness: 12,
+    //             borderRadius: 4,
+    //             data: qty,
+    //           }
+    //         ],
+    //         labels: months
+    //       }
+    //     )
+    //     console.log("NZ data retrieved")
+    //     setResultExists(true);
+    //   })
+    //   .catch(error => {
+    //     console.log('error', error)
+    //     setResultExists(false);
+    //   });
   }
 
-  useEffect(() => {
-    refreshData()
-  }, [year, category, type])
+  // useEffect(() => {
+  //   refreshData()
+  // }, [year, category, type])
 
   return (
     <Card {...props}>
@@ -218,10 +259,29 @@ const NZData = (props) => {
         )}
         title="New Zealand Oil Data over Time"
       />
+
       <div style={{display: 'flex', flexDirection: 'row'}}>
+
       <InputLabel id="yearLabel">Year</InputLabel>
-      <Autocomplete disablePortal options={allYears} sx={{ width: 120 }} renderInput={(params) => <TextField {...params} />} />
+      <Autocomplete isOptionEqualToValue={(option, value) => option === value} value={year} onChange={(event, newValue) => { setYear(String(newValue)) }} options={allYears} sx={{ width: 130 }} renderInput={(params) => <TextField {...params} />} />
+
       <InputLabel id="categoryLabel">Category</InputLabel>
+      <Autocomplete 
+        value={prodGrp} 
+        onChange={(event, newValue) => {
+          setprodGrp(newValue);
+        }}
+        options={allProdGrps} 
+        sx={{ width: 150 }} 
+        renderInput={(params) => <TextField {...params} />} 
+      />
+
+      {/* <Autocomplete isOptionEqualToValue={(option, value) => option === value} value={year} onChange={(event, newValue) => { setYear(String(newValue)) }} options={allYears} sx={{ width: 130 }} renderInput={(params) => <TextField {...params} />} /> */}
+
+      {/* <div style={{display: 'flex', flexDirection: 'row'}}>
+      <InputLabel id="yearLabel">Year</InputLabel> */}
+      {/* <Autocomplete disablePortal options={allYears} sx={{ width: 120 }} renderInput={(params) => <TextField {...params} />} /> */}
+      {/* <InputLabel id="categoryLabel">Category</InputLabel> */}
       {/* <Select
         labelId="categoryLabel"
         id="demo-simple-select-standard"
@@ -235,7 +295,7 @@ const NZData = (props) => {
           )
         })}
       </Select> */}
-      <Autocomplete disablePortal options={allProdGrps} sx={{ width: 150 }} renderInput={(params) => <TextField {...params} />} />
+      {/* <Autocomplete disablePortal options={allProdGrps} sx={{ width: 150 }} renderInput={(params) => <TextField {...params} />} /> */}
       <InputLabel id="typeLabel">Type</InputLabel>
       {/* <Select
         labelId="typeLabel"
